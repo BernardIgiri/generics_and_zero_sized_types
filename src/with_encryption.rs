@@ -1,6 +1,6 @@
 use std::{collections::HashMap};
 use std::io::{self, Write};
-use bincode;
+
 use crate::encryption::EncryptionMethod;
 
 pub struct PasswordVault<T: EncryptionMethod> {
@@ -31,11 +31,11 @@ impl<T: EncryptionMethod> PasswordVault<T> {
                 let mut decrypted_output = io::Cursor::new(&mut decrypted_data);
                 let mut input = io::Cursor::new(self.encrypted_data);
                 self.encryption_method.decrypt(
-                    &*master_password,
+                    &master_password,
                     &mut input,
                     &mut decrypted_output,
                 )?;
-                bincode::deserialize(&decrypted_output.get_ref().as_slice())
+                bincode::deserialize(decrypted_output.get_ref().as_slice())
             }.map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
         Ok(UnlockedPasswordVault {
             encryption_method: self.encryption_method,

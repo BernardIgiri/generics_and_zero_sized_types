@@ -18,7 +18,7 @@ fn main() {
         let users:Vec<&String> = vault.list_users().collect();
         users.len();
         vault.add_password("bob".into(), "apple".into());
-        vault.get_password("bob".into());
+        vault.get_password("bob");
         let vault = vault.lock().unwrap();
         let mut save_data = Vec::new();
         let mut writer = std::io::Cursor::new(&mut save_data);

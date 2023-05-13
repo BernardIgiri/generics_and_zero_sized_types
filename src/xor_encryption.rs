@@ -8,21 +8,21 @@ impl EncryptionMethod for XorEncryption {
     fn encrypt<R: Read, W: Write>(&self, password: &str, mut reader: R, writer: &mut W) -> io::Result<()> {
         let password_bytes = password.as_bytes();
         let mut password_index = 0;
-
+    
         let mut buf = [0u8; 1024];
         loop {
             let count = reader.read(&mut buf)?;
             if count == 0 {
                 break;
             }
-            for i in 0..count {
-                buf[i] ^= password_bytes[password_index];
+            buf[..count].iter_mut().for_each(|byte| {
+                *byte ^= password_bytes[password_index];
                 password_index = (password_index + 1) % password_bytes.len();
-            }
+            });
             writer.write_all(&buf[..count])?;
         }
         Ok(())
-    }
+    }    
 
     fn decrypt<R: Read, W: Write>(&self, password: &str, mut reader: R, mut writer: &mut W) -> io::Result<()> {
         self.encrypt(password, &mut reader, &mut writer)
