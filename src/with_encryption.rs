@@ -95,14 +95,14 @@ mod tests {
     fn password_vault_locks_without_error() {
         let data = Vec::new();
         let vault = PasswordVault::new(XorEncryption, data);
-        assert_eq!(get_saved_data(&vault).is_empty(), true);
+        assert!(get_saved_data(&vault).is_empty());
         let mut vault = vault.unlock(MASTER_PASSWORD.into()).unwrap();
         vault.add_password(PASSWORDS[0].0.into(),PASSWORDS[0].1.into());
         vault.add_password(PASSWORDS[1].0.into(),PASSWORDS[1].1.into());
         let passwords: Vec<&String> = vault.list_users().collect();
         assert_eq!(passwords.len(), 2);
         let vault = vault.lock().unwrap();
-        assert_eq!(get_saved_data(&vault).is_empty(), false);
+        assert!(!get_saved_data(&vault).is_empty());
     }
 
     #[test]

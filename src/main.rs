@@ -1,5 +1,5 @@
-mod naive_solution;
 mod encryption;
+mod naive_solution;
 mod with_encryption;
 mod xor_encryption;
 
@@ -15,7 +15,7 @@ fn main() {
         let data = Vec::new();
         let vault = with_encryption::PasswordVault::new(xor_encryption::XorEncryption, data);
         let mut vault = vault.unlock("password123".into()).unwrap();
-        let users:Vec<&String> = vault.list_users().collect();
+        let users: Vec<&String> = vault.list_users().collect();
         users.len();
         vault.add_password("bob".into(), "apple".into());
         vault.get_password("bob");

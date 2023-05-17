@@ -38,7 +38,7 @@ mod tests {
 
     #[test]
     fn encrypt() {
-        let data = PLAIN_TEXT.clone();
+        let data = PLAIN_TEXT;
         let mut result:Vec<u8> = Vec::new();
         let input = io::Cursor::new(data);
         let mut output = io::Cursor::new(&mut result);
@@ -49,7 +49,7 @@ mod tests {
 
     #[test]
     fn decrypt() {
-        let data = ENCRYPTED.clone();
+        let data = ENCRYPTED;
         let mut result:Vec<u8> = Vec::new();
         let input = io::Cursor::new(data);
         let mut output = io::Cursor::new(&mut result);
